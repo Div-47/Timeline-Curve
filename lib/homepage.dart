@@ -45,6 +45,12 @@ class _HomePageState extends State<HomePage>
                 child: state is TimeLineCurveDataSuccess
                     ? Column(
                         children: [
+                          SizedBox(height: 10),
+                          Text(
+                            "Timeline Curve",
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.w500),
+                          ),
                           AnimatedBuilder(
                               animation: _controller,
                               builder: (ctx, child) {
@@ -74,7 +80,7 @@ class _HomePageState extends State<HomePage>
   }
 }
 
-void showPopupMenu(
+showPopupMenu(
     BuildContext context, TapDownDetails details, TimeLineValues value) {
   showMenu(
       context: context,

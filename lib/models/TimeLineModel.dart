@@ -5,22 +5,24 @@ class TimeLineValues {
   TimeLineValues({required this.date, required this.event});
 }
 
-List<TimeLineValues> values = [ TimeLineValues(
-        date: DateTime(2023, 12, 18, 13),
-        event: "React Task",
-      ),
-      TimeLineValues(
-        date: DateTime(2023, 12, 20, 10),
-        event: "Python Task",
-      ),
-      TimeLineValues(
-        date: DateTime(2023, 12, 21, 16),
-        event: "Ruby Task",
-      ),
-      TimeLineValues(
-        date: DateTime(2023, 12, 23, 8),
-        event: "Flutter Task",
-      ),];
+List<TimeLineValues> values = [
+  TimeLineValues(
+    date: DateTime(2023, 12, 18, 13),
+    event: "React Task",
+  ),
+  TimeLineValues(
+    date: DateTime(2023, 12, 20, 10),
+    event: "Python Task",
+  ),
+  TimeLineValues(
+    date: DateTime(2023, 12, 21, 16),
+    event: "Ruby Task",
+  ),
+  TimeLineValues(
+    date: DateTime(2023, 12, 23, 8),
+    event: "Flutter Task",
+  ),
+];
 String getDayName(int dayOfWeek) {
   switch (dayOfWeek) {
     case 1:
