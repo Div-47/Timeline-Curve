@@ -18,6 +18,7 @@ Plotted the points on the canvas according to the dynamic data and joins the poi
 Added a Timeline view box on click of plotted points giving the information about the Timeline.
 
 Mathematical -
+
 Implemented the Week days in x-axis through the below code. 
  for (var i = 0; i < 7; i++) {
     xPoints.add(Offset((10 + ((width) / 7) * i), 400.0));
