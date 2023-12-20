@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:timeline_curve/helpers/popupMenu.dart';
 import 'package:timeline_curve/homepage.dart';
 import 'package:timeline_curve/models/TimeLineModel.dart';
 import 'package:touchable/touchable.dart';
@@ -12,12 +13,11 @@ class PathPainter extends CustomPainter {
   double chartHeight;
 
   double value;
-  PathPainter({
-    required this.context,
-    required this.timeLineValues,
-    required this.value,
-    required this.chartHeight
-  });
+  PathPainter(
+      {required this.context,
+      required this.timeLineValues,
+      required this.value,
+      required this.chartHeight});
   @override
   void paint(Canvas canvas, Size size) {
     var myCanvas = TouchyCanvas(context, canvas);
@@ -30,8 +30,6 @@ class PathPainter extends CustomPainter {
 
 Path drawPath(chartHeight, List<TimeLineValues> timeLineValues, context,
     TouchyCanvas canvas, double value) {
-
-
   final width = MediaQuery.of(context).size.width;
   final double height = chartHeight;
   final path = Path();
@@ -47,16 +45,16 @@ Path drawPath(chartHeight, List<TimeLineValues> timeLineValues, context,
   //   yPoints.add(Offset((10.0), ((height) / 23) * i));
   // }
 
-  path.moveTo(10, 400);
-
-  for (var i = 1; i < timeLineValues.length + 1; i++) {
-    points.add(Offset((10 + ((width) / 7) * timeLineValues[i - 1].date.weekday),
-        ((height) / 23 * (24 - timeLineValues[i - 1].date.hour))));
-    path.quadraticBezierTo(
-        (10 + ((width) / 7) * timeLineValues[i - 1].date.weekday) - 30,
-        ((height) / 23 * (24 - timeLineValues[i - 1].date.hour)) + 50,
-        (10 + ((width) / 7) * timeLineValues[i - 1].date.weekday),
-        ((height) / 23 * (24 - timeLineValues[i - 1].date.hour)));
+  for (var i = 0; i < timeLineValues.length; i++) {
+    double x = (10 + ((width) / 7) * (timeLineValues[i].date.weekday - 1));
+    double y = ((height) / 23 * (24 - timeLineValues[i].date.hour));
+    points.add(Offset(x, y));
+    if (i == 0) {
+      path.moveTo(x, y);
+    } else {
+      double prevY = ((height) / 23 * (24 - timeLineValues[i - 1].date.hour));
+      path.cubicTo(x - 15, prevY, x - 40, y, x, y);
+    }
   }
   final paint = Paint()
     ..color = Colors.lightGreenAccent
@@ -79,11 +77,14 @@ Path drawPath(chartHeight, List<TimeLineValues> timeLineValues, context,
       ..strokeWidth = 10.0,
     onTapDown: (details) {
       var timeLineValue = timeLineValues.firstWhere((element) =>
-          details.localPosition.dx >
-              (10 + ((width) / 7) * element.date.weekday) - 5 &&
-          details.localPosition.dx <
-              (10 + ((width) / 7) * element.date.weekday) + 5);
-      print(timeLineValue.date);
+          (details.localPosition.dx >
+                  (10 + ((width) / 7) * (element.date.weekday - 1)) - 5 &&
+              details.localPosition.dx <
+                  (10 + ((width) / 7) * (element.date.weekday - 1)) + 5) &&
+          (details.localPosition.dy >
+                  ((height) / 23 * (24 - element.date.hour)) - 5 &&
+              details.localPosition.dy <
+                  ((height) / 23 * (24 - element.date.hour)) + 5));
       showPopupMenu(context, details, timeLineValue);
     },
   );
